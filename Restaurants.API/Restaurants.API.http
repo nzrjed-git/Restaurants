@@ -1,0 +1,5 @@
+@host = https://localhost
+@port = 7167
+
+@Restaurants.API_HostAddress = {{host}:{port}}
+

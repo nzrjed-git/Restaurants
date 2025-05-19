@@ -42,13 +42,15 @@ namespace Restaurants.Infrastructure.Seeders
                         {
                             Name = "Pancake Stack",
                             Description = "Fluffy pancakes served with maple syrup.",
-                            Price = 5.99m
+                            Price = 5.99m,
+                            KiloCalories = 400
                         },
                         new Dish
                         {
                             Name = "Veggie Omelette",
                             Description = "Three-egg omelette with seasonal vegetables.",
-                            Price = 7.49m
+                            Price = 7.49m,
+                            KiloCalories = 240
                         }
                     }
                 },
@@ -72,19 +74,22 @@ namespace Restaurants.Infrastructure.Seeders
                         {
                             Name = "Margherita Pizza",
                             Description = "Classic pizza with tomato, mozzarella, and basil.",
-                            Price = 12.00m
+                            Price = 12.00m,
+                            KiloCalories = 600
                         },
                         new Dish
                         {
                             Name = "Spaghetti Carbonara",
                             Description = "Spaghetti with eggs, Pecorino Romano, and pancetta.",
-                            Price = 14.50m
+                            Price = 14.50m,
+                            KiloCalories = 420
                         },
                         new Dish
                         {
                             Name = "Tiramisu",
                             Description = "Espresso-soaked ladyfingers layered with mascarpone.",
-                            Price = 6.50m
+                            Price = 6.50m,
+                            KiloCalories = 375
                         }
                     }
                 }

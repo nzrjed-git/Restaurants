@@ -1,5 +1,49 @@
 @host = https://localhost
 @port = 7167
 
-@Restaurants.API_HostAddress = {{host}:{port}}
+@Restaurants.API_HostAddress = https://localhost:7167
+
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants
+
+###
+
+@id=1
+GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  "name": "Tasty Bites",
+  "description": "Cozy place with gourmet burgers and fresh salads.",
+  "category": "American",
+  "hasDelivery": true,
+  "contactEmail": "contact@tastybites.com",
+  "contactNumber": "+1234567890",
+  "city": "New York",
+  "street": "123 Main Street",
+  "postalCode": "11-111"
+}
+
+### 
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  "name": "Ta",
+  "description": "Cozy place with gourmet burgers and fresh salads.",
+  "category": "Fast Food",
+  "hasDelivery": true,
+  "contactEmail": "contact@tastybites",
+  "contactNumber": "+1234567890",
+  "city": "New York",
+  "street": "123 Main Street",
+  "postalCode": "100013"
+}
+
+###
+https://localhost:7167/api/restaurants/6
 

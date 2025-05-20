@@ -17,12 +17,20 @@ namespace Restaurants.API.Controllers
             var restaurants = await restauarntService.GetAllAsync();
             return Ok(restaurants);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var restaurant = await restauarntService.GetByIdAsync(id);
             if (restaurant == null) return NotFound();
             return Ok(restaurant);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRestaurant(CreateRestaurantDto createRestaurantDto)
+        {
+            int id = await restauarntService.CreateAsync(createRestaurantDto);
+            return CreatedAtAction(nameof(GetById), new {id}, null);
         }
     }
 }

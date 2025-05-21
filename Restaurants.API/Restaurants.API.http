@@ -45,5 +45,21 @@ Content-Type: application/json
 }
 
 ###
-https://localhost:7167/api/restaurants/6
+https://localhost:7167/api/restaurants/2
 
+
+###
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/1
+
+###
+
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/2
+Content-Type: application/json
+
+{
+  "name": "12",
+  "description": "some desc",
+  "hasDelivery": true
+}
+
+###

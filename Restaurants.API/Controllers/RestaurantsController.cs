@@ -24,7 +24,6 @@ namespace Restaurants.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
-            await Task.Delay(5000);
             return Ok(restaurant);
         }
 

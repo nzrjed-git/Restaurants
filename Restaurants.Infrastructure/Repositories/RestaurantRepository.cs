@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
@@ -28,7 +23,9 @@ namespace Restaurants.Infrastructure.Repositories
 
         public async Task<IEnumerable<Restaurant>> GetAllAsync()
         {
-            var restaurants = await dbContext.Restaurants.Include(r=>r.Dishes).ToListAsync();
+            var restaurants = await dbContext.Restaurants.AsNoTracking()
+                .Include(r => r.Dishes)
+                .ToListAsync();
             return restaurants;
         }
 

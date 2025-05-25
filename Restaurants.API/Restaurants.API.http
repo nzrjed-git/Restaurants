@@ -76,7 +76,7 @@ POST {{Restaurants.API_HostAddress}}/api/identity/register
 Content-Type: application/json
 {
     
-  "email": "test@test.com",
+  "email": "user@test.com",
   "password": "string123ST!"
 
 }
@@ -85,7 +85,7 @@ POST {{Restaurants.API_HostAddress}}/api/identity/login
 Content-Type: application/json
 {
     
-  "email": "test@test.com",
+  "email": "admin@test.com",
   "password": "string123ST!"
 
 }

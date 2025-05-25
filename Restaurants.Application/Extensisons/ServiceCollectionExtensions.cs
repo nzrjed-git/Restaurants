@@ -6,7 +6,7 @@ namespace Restaurants.Application.Extensisons
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddApplicatin(this IServiceCollection services)
+        public static void AddApplication(this IServiceCollection services)
         {
             var assembly = typeof(ServiceCollectionExtensions).Assembly;
             

@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Restaurants.API.Extensions;
 using Restaurants.API.Middlewares;
 using Restaurants.Application.Extensisons;
 using Restaurants.Domain.Entities;
@@ -11,44 +12,10 @@ using Serilog.Events;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<RequestTimeLoggingMiddleware>();
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                 Reference = new OpenApiReference
-                 {
-                     Type = ReferenceType.SecurityScheme, Id = "bearerAuth"
-                 }
-            },
-            []
-        }
-    });
-});
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddApplicatin();
+builder.AddPresentation();
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Host.UseSerilog((context, configuration) =>
-{
-    configuration
-        .ReadFrom.Configuration(context.Configuration);
-        //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-        //.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
-        //.WriteTo.File("Logs/Restaurant-API-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
-        //.WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM HH:mm:ss} {Level:u3}] |{SourceContext}| {NewLine}{Message:lj}{NewLine}{Exception}");
-});
+
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
@@ -67,7 +34,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapIdentityApi<User>();
+
+app.MapGroup("api/identity").MapIdentityApi<User>();
+
 app.UseAuthorization();
 app.MapControllers();
 

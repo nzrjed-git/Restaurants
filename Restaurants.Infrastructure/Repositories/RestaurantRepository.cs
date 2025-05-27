@@ -29,6 +29,14 @@ namespace Restaurants.Infrastructure.Repositories
             return restaurants;
         }
 
+        public async Task<IEnumerable<Restaurant>> GetAllByOwnerIdAsync(string ownerId)
+        {
+            var restaurants = await dbContext.Restaurants.AsNoTracking()
+                .Where(r=>r.OwnerId == ownerId)
+                .ToListAsync();
+            return restaurants;
+        }
+
         public async Task<Restaurant?> GetByIdAsync(int id)
         {
             var restaurant = await dbContext.Restaurants.Include(r => r.Dishes).FirstOrDefaultAsync(r=>r.Id == id);

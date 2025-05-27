@@ -5,9 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Users.Constants;
 using Restaurants.Domain.Entities;
+using Restaurants.Domain.Interfaces;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Authorization;
-using Restaurants.Infrastructure.Authorization.Requirements;
+using Restaurants.Infrastructure.Authorization.Requirements.MinimumAge;
+using Restaurants.Infrastructure.Authorization.Requirements.MinimumRestaurantsCreated;
+using Restaurants.Infrastructure.Authorization.Services;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
@@ -34,9 +37,14 @@ namespace Restaurants.Infrastructure.Extensions
                 .AddPolicy(PolicyNames.HasNationality,
                     builder => builder.RequireClaim(AppClaimTypes.Nationality, "Polish", "Indian"))
                 .AddPolicy(PolicyNames.AtLeast20,
-                    builder=>builder.AddRequirements(new MinimumAgeRequirement(20)));
+                    builder=>builder.AddRequirements(new MinimumAgeRequirement(20)))
+                .AddPolicy(PolicyNames.OwnesAtLeast2,
+                    builder => builder.AddRequirements(new MinimumRestaurantsCreatedRequirement(2))); 
 
             services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+            services.AddScoped<IAuthorizationHandler, MinimumRestaurantsCreatedRequirementHandler>();
+
+            services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
             
         }
     }

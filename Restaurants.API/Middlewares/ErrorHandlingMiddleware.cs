@@ -13,12 +13,18 @@ namespace Restaurants.API.Middlewares
             {
                 await next.Invoke(context);
             }
+            catch (ForbidException)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync("Access forbidden");
+            }
             catch (NotFoundException ex)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(ex.Message);
                 logger.LogError(ex.Message);
-            }catch (NotFoundNameException ex)
+            }
+            catch (NotFoundNameException ex)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(ex.Message);

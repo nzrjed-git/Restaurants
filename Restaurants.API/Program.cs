@@ -1,4 +1,3 @@
-using Microsoft.OpenApi.Models;
 using Restaurants.API.Extensions;
 using Restaurants.API.Middlewares;
 using Restaurants.Application.Extensisons;
@@ -6,7 +5,6 @@ using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Extensions;
 using Restaurants.Infrastructure.Seeders;
 using Serilog;
-using Serilog.Events;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,7 @@
 
 namespace Restaurants.Application.Restaurants.Commands.CreateRestaurnat
 {
-    internal class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaurantCommand>
+    public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaurantCommand>
     {
         private readonly List<string> validCategories = ["Italian", "Mexican", "Japaneese", "American", "Indian"];
         public CreateRestaurantCommandValidator()

@@ -2,7 +2,7 @@
 
 namespace Restaurants.Application.Dishes.Commands.CreateDish
 {
-    internal class CreateDishCommandValidator: AbstractValidator<CreateDishCommand>
+    public class CreateDishCommandValidator: AbstractValidator<CreateDishCommand>
     {
         public CreateDishCommandValidator() {
             RuleFor(d => d.Name)

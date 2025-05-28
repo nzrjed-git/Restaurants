@@ -48,6 +48,7 @@ namespace Restaurants.API.Controllers
             await mediator.Send(new DeleteRestaurantCommand(id));
             return NoContent();
         }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateRestaurant(int id, UpdateRestaurantCommand command)
         {

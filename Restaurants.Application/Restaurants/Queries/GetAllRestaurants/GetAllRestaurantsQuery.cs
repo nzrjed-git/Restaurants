@@ -8,11 +8,7 @@ namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
     public class GetAllRestaurantsQuery : IRequest<PagedResult<RestaurantDto>>
     {
         public string? SearchPhrase { get; set; }
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "The value must be greater than 0")]
         public int PageNumber { get; set; }
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "The value must be greater than 0")]
         public int PageSize { get; set; }
     }
 }

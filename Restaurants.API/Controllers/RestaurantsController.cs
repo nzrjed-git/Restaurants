@@ -19,9 +19,9 @@ namespace Restaurants.API.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetAllRestaurantsQuery query)
         {
-            var restaurants = await mediator.Send(new GetAllRestaurantsQuery());
+            var restaurants = await mediator.Send(query);
             return Ok(restaurants);
         }
 
@@ -48,6 +48,7 @@ namespace Restaurants.API.Controllers
             await mediator.Send(new DeleteRestaurantCommand(id));
             return NoContent();
         }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateRestaurant(int id, UpdateRestaurantCommand command)
         {

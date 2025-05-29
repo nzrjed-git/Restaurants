@@ -1,5 +1,8 @@
-﻿using Azure.Core;
+﻿using System.Globalization;
+using System.Linq.Expressions;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
@@ -29,7 +32,12 @@ namespace Restaurants.Infrastructure.Repositories
                 .ToListAsync();
             return restaurants;
         }
-        public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(string? searchPhrase, int pageSize, int pageNumber)
+        public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(
+            string? searchPhrase,
+            int pageSize,
+            int pageNumber,
+            string? sortBy,
+            SortDirection sortDirection)
         {
             var query = dbContext.Restaurants
             .AsNoTracking()
@@ -45,6 +53,21 @@ namespace Restaurants.Infrastructure.Repositories
                     || r.Description.Contains(search));
             }
             var totalCount = await query.CountAsync();
+            if (sortBy != null)
+            {
+                var columnsSelector = new Dictionary<string, Expression<Func<Restaurant, object>>>
+                {
+                    { nameof(Restaurant.Name), r => r.Name },
+                    { nameof(Restaurant.Description), r => r.Description },
+                    { nameof(Restaurant.Category), r => r.Category },
+                };
+                var selectedColumn = columnsSelector[sortBy];
+
+                query = 
+                    sortDirection == SortDirection.Ascending
+                    ? query.OrderBy(selectedColumn)
+                    : query.OrderByDescending(selectedColumn);
+            }
 
             var restaurants = await query
                 .Skip((pageNumber - 1) * pageSize)

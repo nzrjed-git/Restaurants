@@ -5,7 +5,7 @@ using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Restaurants.DTOs
 {
-    internal class RestaurantsProfile: Profile
+    public class RestaurantsProfile: Profile
     {
         public RestaurantsProfile()
         {

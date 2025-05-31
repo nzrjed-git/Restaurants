@@ -7,7 +7,7 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Commands.CreateRestaurnat
 {
-    internal class CreateRestaurantCommandHandler(
+    public class CreateRestaurantCommandHandler(
         IRestaurantsRepository restaurantsRepository,
         ILogger<CreateRestaurantCommandHandler> logger,
         IMapper mapper,

@@ -9,7 +9,7 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
 {
-    internal class UpdateRestaurantCommandHandler(
+    public class UpdateRestaurantCommandHandler(
         IRestaurantsRepository restaurantsRepository,
         ILogger<UpdateRestaurantCommandHandler> logger,
         IMapper mapper,
@@ -21,10 +21,10 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
             var restaurant = await restaurantsRepository.GetByIdAsync(request.Id);
             if (restaurant == null)
                 throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
-            mapper.Map(request, restaurant);
-            await restaurantsRepository.SaveChangesAsync();
             if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Update))
                 throw new ForbidException();
+            mapper.Map(request, restaurant);
+            await restaurantsRepository.SaveChangesAsync();
         }
     }
 }

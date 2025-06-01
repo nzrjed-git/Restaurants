@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using Restaurants.Domain.Exceptions;
+﻿using Restaurants.Domain.Exceptions;
 
 namespace Restaurants.API.Middlewares
 {

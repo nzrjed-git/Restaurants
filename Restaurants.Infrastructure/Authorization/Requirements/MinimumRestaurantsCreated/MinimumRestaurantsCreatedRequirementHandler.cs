@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.Users;
-using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
-using Restaurants.Infrastructure.Repositories;
 
 namespace Restaurants.Infrastructure.Authorization.Requirements.MinimumRestaurantsCreated
 {

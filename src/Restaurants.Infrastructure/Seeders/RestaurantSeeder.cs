@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Persistence;
@@ -9,6 +10,10 @@ namespace Restaurants.Infrastructure.Seeders
     {
         public async Task SeedAsync()
         {
+            if (dbContext.Database.GetPendingMigrations().Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
             if (await dbContext.Database.CanConnectAsync())
             {
                 if (!dbContext.Restaurants.Any())
@@ -34,11 +39,11 @@ namespace Restaurants.Infrastructure.Seeders
                 },
                 new (UserRoles.Owner)
                 {
-                    NormalizedName = UserRoles.User.ToUpper()
+                    NormalizedName = UserRoles.Owner.ToUpper()
                 },
                 new (UserRoles.Admin)
                 {
-                    NormalizedName = UserRoles.User.ToUpper()
+                    NormalizedName = UserRoles.Admin.ToUpper()
                 },
             };
             return roles;
@@ -46,10 +51,13 @@ namespace Restaurants.Infrastructure.Seeders
 
         private IEnumerable<Restaurant> GetRestaurants()
         {
+            var owner1 = new User() { Email = "seed-user1@test.com" };
+            var owner2 = new User() { Email = "seed-user2@test.com" };
             return new List<Restaurant>
             {
                 new Restaurant
                 {
+                    Owner = owner1,
                     Name = "Sunrise Diner",
                     Description = "Cozy spot for all-day breakfast and brunch.",
                     Category = "Diner",
@@ -82,6 +90,7 @@ namespace Restaurants.Infrastructure.Seeders
                 },
                 new Restaurant
                 {
+                    Owner = owner2,
                     Name = "La Trattoria",
                     Description = "Authentic Italian cuisine in a warm atmosphere.",
                     Category = "Italian",

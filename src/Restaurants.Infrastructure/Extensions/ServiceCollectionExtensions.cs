@@ -11,9 +11,11 @@ using Restaurants.Infrastructure.Authorization;
 using Restaurants.Infrastructure.Authorization.Requirements.MinimumAge;
 using Restaurants.Infrastructure.Authorization.Requirements.MinimumRestaurantsCreated;
 using Restaurants.Infrastructure.Authorization.Services;
+using Restaurants.Infrastructure.Configuration;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
+using Restaurants.Infrastructure.Storage;
 
 namespace Restaurants.Infrastructure.Extensions
 {
@@ -45,7 +47,19 @@ namespace Restaurants.Infrastructure.Extensions
             services.AddScoped<IAuthorizationHandler, MinimumRestaurantsCreatedRequirementHandler>();
 
             services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
-            
+
+            services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
+
+            services.PostConfigure<BlobStorageSettings>(settings =>
+            {
+                var envConnectionString = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
+                if (string.IsNullOrEmpty(envConnectionString))
+                    throw new InvalidOperationException("AZURE_BLOB_CONNECTION_STRING not set");
+
+                settings.ConnectionString = envConnectionString;
+            });
+
+            services.AddScoped<IBlobStorageService, BlobStorageService>();
         }
     }
 }

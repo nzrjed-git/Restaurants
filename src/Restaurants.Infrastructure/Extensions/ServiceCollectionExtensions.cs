@@ -55,8 +55,11 @@ namespace Restaurants.Infrastructure.Extensions
                 var envConnectionString = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
                 if (string.IsNullOrEmpty(envConnectionString))
                     throw new InvalidOperationException("AZURE_BLOB_CONNECTION_STRING not set");
-
+                var envAccountKeyString = Environment.GetEnvironmentVariable("AZURE_BLOB_ACCOUNTKEY");
+                if (string.IsNullOrEmpty(envAccountKeyString))
+                    throw new InvalidOperationException("AZURE_BLOB_ACCOUNTKEY not set");
                 settings.ConnectionString = envConnectionString;
+                settings.AccountKey = envAccountKeyString;
             });
 
             services.AddScoped<IBlobStorageService, BlobStorageService>();

@@ -27,7 +27,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = PolicyNames.HasNationality)]
+        //[Authorize(Policy = PolicyNames.HasNationality)]
         //[Authorize(Policy = PolicyNames.OwnesAtLeast2)]
         public async Task<IActionResult> GetById(int id)
         {
@@ -66,7 +66,7 @@ namespace Restaurants.API.Controllers
             var command = new UploadRestaurantLogoCommand()
             {
                 RestaurantId = id,
-                FileName = file.FileName,
+                FileName = $"{id}-{file.FileName}",
                 File = stream,
             };
             await mediator.Send(command);

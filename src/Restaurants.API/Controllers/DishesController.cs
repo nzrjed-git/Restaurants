@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dishes.Commands.CreateDish;
 using Restaurants.Application.Dishes.Commands.DeleteAllForRestaurant;
-using Restaurants.Application.Dishes.DTOs;
 using Restaurants.Application.Dishes.Queries.GetAllForRestaurant;
 using Restaurants.Application.Dishes.Queries.GetDishByIdForRestaurant;
-using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
-using Restaurants.Domain.Entities;
 using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers

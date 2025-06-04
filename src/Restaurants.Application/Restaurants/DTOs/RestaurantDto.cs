@@ -16,6 +16,7 @@ namespace Restaurants.Application.Restaurants.DTOs
         public string? City { get; set; }
         public string? Street { get; set; }
         public string? PostalCode { get; set; }
+        public string? LogogSasUrl { get; set; }
 
         public List<DishDto> Dishes { get; set; } = new();
     }

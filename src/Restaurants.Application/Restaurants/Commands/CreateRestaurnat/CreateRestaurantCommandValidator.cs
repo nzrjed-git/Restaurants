@@ -15,7 +15,7 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurnat
 
             RuleFor(dto => dto.Category)
                 .Must(category => validCategories.Contains(category))
-                .WithMessage("Invalid category. Please choose from the valid categories.");
+                .WithMessage("Invalid category. Please choose from the valid categories. [\"Italian\", \"Mexican\", \"Japaneese\", \"American\", \"Indian\"]");
             //.Custom((value, context) =>
             //{
             //    var isValidCategory = validCategories.Contains(value);

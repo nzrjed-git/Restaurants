@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Restaurants.Application.Restaurants.DTOs;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Exceptions;
+using Restaurants.Domain.Interfaces;
 using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Queries.GetRestaurantById
@@ -11,7 +12,8 @@ namespace Restaurants.Application.Restaurants.Queries.GetRestaurantById
     internal class GetRestaurantByIdQueryHandler(
         IRestaurantsRepository restaurantsRepository,
         ILogger<GetRestaurantByIdQueryHandler> logger,
-        IMapper mapper) : IRequestHandler<GetRestaurantByIdQuery, RestaurantDto>
+        IMapper mapper,
+        IBlobStorageService blobStorageService) : IRequestHandler<GetRestaurantByIdQuery, RestaurantDto>
     {
         public async Task<RestaurantDto> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
         {
@@ -20,6 +22,7 @@ namespace Restaurants.Application.Restaurants.Queries.GetRestaurantById
             if (restaurant == null)
                 throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
             var restaurantDto = mapper.Map<RestaurantDto>(restaurant);
+            restaurantDto.LogogSasUrl = blobStorageService.GetBlobSasUrl(restaurant.LogoUrl);
             return restaurantDto;
         }
     }

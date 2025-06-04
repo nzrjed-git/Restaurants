@@ -1,6 +1,8 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.OpenApi.Models;
 using Restaurants.API.Middlewares;
 using Serilog;
+using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 
 namespace Restaurants.API.Extensions
 {
@@ -37,14 +39,16 @@ namespace Restaurants.API.Extensions
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
             builder.Services.AddScoped<RequestTimeLoggingMiddleware>();
 
+
+            var aiConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+
             builder.Host.UseSerilog((context, configuration) =>
             {
                 configuration
-                    .ReadFrom.Configuration(context.Configuration);
-                //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                //.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
-                //.WriteTo.File("Logs/Restaurant-API-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
-                //.WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM HH:mm:ss} {Level:u3}] |{SourceContext}| {NewLine}{Message:lj}{NewLine}{Exception}");
+                    .ReadFrom.Configuration(context.Configuration)
+                    .WriteTo.ApplicationInsights(
+                    new TelemetryConfiguration { ConnectionString = aiConnectionString},
+                    new TraceTelemetryConverter());
             });
         }
     }

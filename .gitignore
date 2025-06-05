@@ -365,3 +365,5 @@ FodyWeavers.xsd
 # Visual Studio launch settings
 **/Properties/launchSettings.json
 /src/Restaurants.API/Properties/launchSettings.json
+src/Restaurants.API/properties/launchSettings.json
+/src/Restaurants.API/properties/launchSettings.json

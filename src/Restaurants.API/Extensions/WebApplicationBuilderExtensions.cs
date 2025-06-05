@@ -41,15 +41,28 @@ namespace Restaurants.API.Extensions
 
 
             var aiConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
-
-            builder.Host.UseSerilog((context, configuration) =>
+            if (string.IsNullOrEmpty(aiConnectionString))
             {
-                configuration
-                    .ReadFrom.Configuration(context.Configuration)
-                    .WriteTo.ApplicationInsights(
-                    new TelemetryConfiguration { ConnectionString = aiConnectionString},
-                    new TraceTelemetryConverter());
-            });
+                Console.WriteLine("______________________________________");
+                Console.WriteLine("Warning: Application Insights connection string not set. Skipping telemetry setup.");
+                Console.WriteLine("______________________________________");
+            }
+            //check for inegration tests
+            if (!string.IsNullOrEmpty(aiConnectionString))
+            {
+                builder.Host.UseSerilog((context, configuration) =>
+                {
+                    configuration
+                        .ReadFrom.Configuration(context.Configuration)
+                        .WriteTo.ApplicationInsights(
+                            new TelemetryConfiguration { ConnectionString = aiConnectionString },
+                            new TraceTelemetryConverter());
+                });
+            }
+            else
+            {
+
+            }
         }
     }
 }

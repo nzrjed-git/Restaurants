@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Restaurants.Application.Users.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Interfaces;
@@ -47,22 +48,29 @@ namespace Restaurants.Infrastructure.Extensions
             services.AddScoped<IAuthorizationHandler, MinimumRestaurantsCreatedRequirementHandler>();
 
             services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
+            var blobCon = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
+            var blobAccountKeyString = Environment.GetEnvironmentVariable("AZURE_BLOB_ACCOUNTKEY");
 
             services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
 
             services.PostConfigure<BlobStorageSettings>(settings =>
             {
-                var envConnectionString = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
-                if (string.IsNullOrEmpty(envConnectionString))
-                    throw new InvalidOperationException("AZURE_BLOB_CONNECTION_STRING not set");
-                var envAccountKeyString = Environment.GetEnvironmentVariable("AZURE_BLOB_ACCOUNTKEY");
-                if (string.IsNullOrEmpty(envAccountKeyString))
-                    throw new InvalidOperationException("AZURE_BLOB_ACCOUNTKEY not set");
-                settings.ConnectionString = envConnectionString;
-                settings.AccountKey = envAccountKeyString;
+                settings.ConnectionString = blobCon;
+                settings.AccountKey = blobAccountKeyString;
             });
 
             services.AddScoped<IBlobStorageService, BlobStorageService>();
+
+            if (!string.IsNullOrEmpty(blobCon) && !string.IsNullOrEmpty(blobAccountKeyString))
+            {
+                
+            }
+            else
+            {
+                Console.WriteLine("AZURE_BLOB_CONNECTION_STRING or AZURE_BLOB_ACCOUNT_Key not set");
+            }
+
+
         }
     }
 }

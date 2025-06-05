@@ -6,15 +6,14 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
-using Restaurants.API.Tests;
 using Restaurants.Application.Restaurants.DTOs;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Xunit;
 
-namespace Restaurants.API.Controllers.Tests
+namespace Restaurants.API.Tests.Controllers
 {
-    public class RestaurantsControllerTests: IClassFixture<WebApplicationFactory<Program>>
+    public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _webApplicationFactory;
         private readonly Mock<IRestaurantsRepository> _restaurantsRepositoryMock = new();
@@ -28,7 +27,7 @@ namespace Restaurants.API.Controllers.Tests
                     {
                         services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
                         services.Replace(ServiceDescriptor.Scoped(
-                            typeof(IRestaurantsRepository), _=>_restaurantsRepositoryMock.Object));
+                            typeof(IRestaurantsRepository), _ => _restaurantsRepositoryMock.Object));
                     });
                 });
         }
@@ -49,7 +48,7 @@ namespace Restaurants.API.Controllers.Tests
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
         }
         [Fact()]
-        public async Task GetById_ForExistingId_ShouldReturn200Ok ()
+        public async Task GetById_ForExistingId_ShouldReturn200Ok()
         {
             //arrange
             var id = 321;

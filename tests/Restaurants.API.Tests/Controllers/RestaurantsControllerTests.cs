@@ -9,6 +9,7 @@ using Moq;
 using Restaurants.Application.Restaurants.DTOs;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
+using Restaurants.Infrastructure.Seeders;
 using Xunit;
 
 namespace Restaurants.API.Tests.Controllers
@@ -17,6 +18,7 @@ namespace Restaurants.API.Tests.Controllers
     {
         private readonly WebApplicationFactory<Program> _webApplicationFactory;
         private readonly Mock<IRestaurantsRepository> _restaurantsRepositoryMock = new();
+        private readonly Mock<IRestaurantSeeder> _restauranstSeederMock = new();
 
         public RestaurantsControllerTests(WebApplicationFactory<Program> webApplicationFactory)
         {
@@ -28,6 +30,9 @@ namespace Restaurants.API.Tests.Controllers
                         services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
                         services.Replace(ServiceDescriptor.Scoped(
                             typeof(IRestaurantsRepository), _ => _restaurantsRepositoryMock.Object));
+
+                        services.Replace(ServiceDescriptor.Scoped(
+                            typeof(IRestaurantSeeder), _ => _restauranstSeederMock.Object));
                     });
                 });
         }
